@@ -1,6 +1,6 @@
 ---
 name: hse-design-system
-description: Проектирование и верстка новых веб-страниц, лендингов мероприятий, промо-сайтов подразделений и интерактивных компонентов для Национального исследовательского университета «Высшая школа экономики» (НИУ ВШЭ / HSE University). Обеспечивает строгое соблюдение Дизайн-системы v1.5.0, брендбука ВШЭ, русской типографики и стандартов доступности (a11y).
+description: Проектирование и верстка новых веб-страниц, лендингов мероприятий, промо-сайтов подразделений и интерактивных компонентов для Национального исследовательского университета «Высшая школа экономики» (НИУ ВШЭ / HSE University). Обеспечивает строгое соблюдение Дизайн-системы v1.5.0, брендбука ВШЭ, русской и английской редполитики и стандартов доступности (a11y).
 ---
 
 # HSE Design System & Portal Experience Skill
@@ -23,35 +23,93 @@ description: Проектирование и верстка новых веб-с
 
 - **Токены стилей**: [`assets/styles/hse-tokens.css`](assets/styles/hse-tokens.css) — CSS Custom Properties цветов, шрифтов, отступов.
 - **Шрифты**: [`assets/styles/fonts.css`](assets/styles/fonts.css) — подключение `HSE Sans` и `HSE Slab`.
-- **Векторные логотипы**:
-  - [`assets/logos/hse-logo-ru-blue.svg`](assets/logos/hse-logo-ru-blue.svg) — синий для светлого фона.
-  - [`assets/logos/hse-logo-ru-white.svg`](assets/logos/hse-logo-ru-white.svg) — белый для синего/темного фона.
-  - [`assets/logos/hse-sign-blue.svg`](assets/logos/hse-sign-blue.svg) — синий гербовый знак.
-  - [`assets/logos/hse-sign-white.svg`](assets/logos/hse-sign-white.svg) — белый гербовый знак.
+- **Векторные логотипы (12 официальных вариантов в `assets/logos/`, интерактивное демо `demo.html`)**:
+  - **Русскоязычные**:
+    - [`assets/logos/hse-logo-ru_w_descriptor-blue.svg`](assets/logos/hse-logo-ru_w_descriptor-blue.svg) — с дескриптором (синий для светлого фона).
+    - [`assets/logos/hse-logo-ru_w_descriptor-white.svg`](assets/logos/hse-logo-ru_w_descriptor-white.svg) — с дескриптором (белый для темного фона).
+    - [`assets/logos/hse-logo-ru_full-blue.svg`](assets/logos/hse-logo-ru_full-blue.svg) — круглая академическая печать (синяя).
+    - [`assets/logos/hse-logo-ru_full-white.svg`](assets/logos/hse-logo-ru_full-white.svg) — круглая академическая печать (белая).
+  - **Англоязычные (HSE University)**:
+    - [`assets/logos/hse-logo-en_one_line-blue.svg`](assets/logos/hse-logo-en_one_line-blue.svg) — в одну строку (синий).
+    - [`assets/logos/hse-logo-en_one_line-white.svg`](assets/logos/hse-logo-en_one_line-white.svg) — в одну строку (белый).
+    - [`assets/logos/hse-logo-en_two_lines-blue.svg`](assets/logos/hse-logo-en_two_lines-blue.svg) — в две строки (синий).
+    - [`assets/logos/hse-logo-en_two_lines-white.svg`](assets/logos/hse-logo-en_two_lines-white.svg) — в две строки (белый).
+    - [`assets/logos/hse-logo-en_full-blue.svg`](assets/logos/hse-logo-en_full-blue.svg) — круглая печать EST 1992 (синяя).
+    - [`assets/logos/hse-logo-en_full-white.svg`](assets/logos/hse-logo-en_full-white.svg) — круглая печать EST 1992 (белая).
+  - **Фирменные знаки (монограмма «В» в круге)**:
+    - [`assets/logos/hse-sign-blue.svg`](assets/logos/hse-sign-blue.svg) — синий знак.
+    - [`assets/logos/hse-sign-white.svg`](assets/logos/hse-sign-white.svg) — белый знак.
 - **Справочники**:
   - [`references/tokens.md`](references/tokens.md) — подробные спецификации дизайн-токенов.
   - [`references/brandbook.md`](references/brandbook.md) — охранные зоны, правила использования логотипов.
-  - [`references/editorial.md`](references/editorial.md) — типографика («ёлочки», длинное тире `—`, неразрывные пробелы).
+  - [`references/editorial-ru.md`](references/editorial-ru.md) — русская типографика («ёлочки», длинное тире `—`, неразрывные пробелы `&nbsp;`).
+  - [`references/editorial-en.md`](references/editorial-en.md) — английская редполитика (British English, одинарные ‘...’, тире, должности, даты).
+
+---
+
+## Правила разрешения путей к ассетам (Asset Resolution)
+
+Чтобы агент однозначно и безошибочно находил и подключал логотипы и стили:
+
+1. **Каноническое расположение ассетов в скилле**:
+   - Логотипы: `<каталог_скилла>/assets/logos/`
+   - Стили: `<каталог_скилла>/assets/styles/`
+2. **Размещение в целевом проекте**:
+   - При создании нового проекта или автономной страницы скопируйте папку `assets/` из состава скилла в корень проекта:
+     ```bash
+     cp -r <путь_к_скиллу>/assets ./assets
+     ```
+3. **Относительные пути в коде HTML**:
+   - Все пути к стилям и логотипам рассчитываются **строго относительно расположения генерируемого HTML-файла**:
+     - **Для страницы в корне проекта (`index.html`)**:
+       ```html
+       <link rel="stylesheet" href="assets/styles/hse-tokens.css">
+       <link rel="stylesheet" href="assets/styles/fonts.css">
+       <!-- Русскоязычная страница: -->
+       <img src="assets/logos/hse-logo-ru_w_descriptor-blue.svg" alt="НИУ ВШЭ" class="hse-header__logo" width="280" height="44">
+       <!-- Или англоязычная страница: -->
+       <img src="assets/logos/hse-logo-en_one_line-blue.svg" alt="HSE University" class="hse-header__logo" width="240" height="36">
+       ```
+     - **Для страницы во вложенной папке (например, `events/ai-school/index.html`)**:
+       ```html
+       <link rel="stylesheet" href="../../assets/styles/hse-tokens.css">
+       <link rel="stylesheet" href="../../assets/styles/fonts.css">
+       <img src="../../assets/logos/hse-logo-ru_w_descriptor-blue.svg" alt="НИУ ВШЭ" class="hse-header__logo" width="280" height="44">
+       ```
+   - ❌ **Запрещено**: подставлять фиксированный путь `../../assets/...` для файлов, находящихся в корне проекта.
 
 ---
 
 ## Пошаговый алгоритм работы агента
 
-### Шаг 1. Определение структуры и стека
-- Если разрабатывается **статическая страница / лендинг**:
-  - Скопировать или подключить ресурсы скилла (`assets/styles/` и `assets/logos/`) в проект.
-  - Подключить `assets/styles/hse-tokens.css` и `assets/styles/fonts.css`.
-  - Использовать чистый семантический HTML5 (`<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`).
-  - Использовать ванильный ES6 JavaScript для интерактива без внешних зависимостей.
+### Шаг 1. Определение структуры и обязательное подключение стилей
+- Скопировать или проверить наличие папки `assets/` в проекте.
+- **Обязательное требование**: в тег `<head>` любого HTML-документа обязательно подключаются внешние файлы токенов и шрифтов:
+  ```html
+  <link rel="stylesheet" href="assets/styles/hse-tokens.css">
+  <link rel="stylesheet" href="assets/styles/fonts.css">
+  ```
+  *(Standalone-верстка с инлайновыми блоками `:root` в `<style>` запрещена — единым источником правды являются внешние файлы стилей).*
+- Использовать чистый семантический HTML5 (`<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`).
+- Использовать ванильный ES6 JavaScript для интерактива без сторонних фреймворков.
 
 ### Шаг 2. Разметка шапки и айдентики
-- В шапке (`<header>`) обязательно разместить официальный логотип:
-  ```html
-  <a href="https://www.hse.ru/" class="hse-header__logo-link" aria-label="НИУ ВШЭ">
-    <img src="../../assets/logos/hse-logo-ru-blue.svg" alt="НИУ ВШЭ" class="hse-header__logo" width="280" height="44">
-  </a>
-  ```
-- На темном/синем фоне шапки использовать `hse-logo-ru-white.svg`.
+- В шапке (`<header>`) обязательно разместить официальный логотип в соответствии с языком страницы и фоном:
+  - **Для русскоязычной страницы (светлый фон)**:
+    ```html
+    <a href="https://www.hse.ru/" class="hse-header__logo-link" aria-label="НИУ ВШЭ">
+      <img src="assets/logos/hse-logo-ru_w_descriptor-blue.svg" alt="НИУ ВШЭ" class="hse-header__logo" width="280" height="44">
+    </a>
+    ```
+  - **Для англоязычной страницы (светлый фон)**:
+    ```html
+    <a href="https://www.hse.ru/en/" class="hse-header__logo-link" aria-label="HSE University">
+      <img src="assets/logos/hse-logo-en_one_line-blue.svg" alt="HSE University" class="hse-header__logo" width="240" height="36">
+    </a>
+    ```
+  - **На тёмно-синем/брендовом фоне шапки**: использовать белые инверсные версии (`hse-logo-ru_w_descriptor-white.svg` или `hse-logo-en_one_line-white.svg`).
+  - **В промо-материалах, сертификатах и академических лендингах**: круглая печать `hse-logo-ru_full-blue.svg` / `hse-logo-en_full-blue.svg`.
+  - **В мобильных барах и компактных шапках**: `hse-logo-en_two_lines-blue.svg` или гербовый знак `hse-sign-blue.svg`.
 - Обеспечить охранную зону вокруг логотипа (не менее высоты литеры «В»).
 
 ### Шаг 3. Осмысленное распределение цветов и ролевая модель (@hse-design/tokens v1.5.0)
@@ -70,10 +128,22 @@ description: Проектирование и верстка новых веб-с
     - Акценты: Dodger `var(--hse-color-accent-dodger)` (`#27A3FF`), Red `var(--hse-color-accent-red)` (`#F0522B`), Orange `var(--hse-color-accent-orange)` (`#FA8500`), Green `var(--hse-color-accent-green)` (`#00B86E`) — используются для тегов-категорий, бейджей и статусов, но не для сплошной раскраски.
 
 ### Шаг 4. Редактура и типографика текста
-- Заменять все кавычки `"..."` на французские «ёлочки» `«...»`.
-- Заменять тире в предложениях на длинное тире `—` с пробелами.
-- В числовых диапазонах использовать короткое тире `–` без пробелов (`2025–2026`).
-- Проставлять неразрывные пробелы `&nbsp;` после коротких союзов и предлогов (`в`, `на`, `с`, `к`, `из`, `по`, `о`, `от`, `и`, `а`, `но`), а также между числами и существительными (`10&nbsp;дней`).
+Определить язык контента и строго соблюдать соответствующий справочник:
+
+- **Для русскоязычного контента ([`references/editorial-ru.md`](references/editorial-ru.md))**:
+  - Заменять все кавычки `"..."` на французские «ёлочки» `«...»` (вложенные — „лапки“ `„...“`).
+  - Заменять тире в предложениях на длинное тире `—` с пробелами.
+  - В числовых диапазонах использовать короткое тире `–` без пробелов (`2025–2026`).
+  - Проставлять неразрывные пробелы `&nbsp;` после коротких союзов и предлогов (`в`, `на`, `с`, `к`, `из`, `по`, `о`, `от`, `и`, `а`, `но`), а также между числами и существительными (`10&nbsp;дней`, `100&nbsp;%`).
+  - Название университета: «Национальный исследовательский университет «Высшая школа экономики»», «НИУ ВШЭ», «Вышка».
+
+- **Для англоязычного контента ([`references/editorial-en.md`](references/editorial-en.md))**:
+  - Британский английский (UK spelling): *programme*, *centre*, *honour*, *-ise* (*organise*, *realise*).
+  - Одинарные кавычки ‘...’ как основные, двойные “...” как вложенные. Никаких «ёлочек»!
+  - Длинное тире `—` без пробелов внутри предложений (`results—they were`).
+  - Короткое тире `–` без пробелов в диапазонах (`1920–29`, `2025–2026`) и кампусах (`HSE University–St Petersburg`).
+  - Название вуза: строго **`HSE University`** (не использовать аббревиатуру HSE без слова University в заголовках).
+  - Даты: `March 15, 2025`; время: `8:30 am`, `6:15 pm`.
 
 ### Шаг 5. Адаптивность и интерактивность
 - Добавить `<meta name="viewport" content="width=device-width, initial-scale=1.0">`.

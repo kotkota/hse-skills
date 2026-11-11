@@ -314,7 +314,7 @@ class HSEHtmlParser(HTMLParser):
                     current_line,
                     f'Дефис с пробелами « - » вместо длинного тире « — ». Строка: {line_str[:100]}'
                 ))
-            elif YEAR_RANGE_HYPHEN_RE.search(line_str):
+            if YEAR_RANGE_HYPHEN_RE.search(line_str):
                 self.dash_issues.append((
                     current_line,
                     f'Дефис в числовом диапазоне вместо короткого тире «–». Строка: {line_str[:100]}'
